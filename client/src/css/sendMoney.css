@@ -1,0 +1,73 @@
+/* Center the form on the viewport */
+.send-money-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Ensures it's centered vertically */
+}
+
+/* Styling for the input fields to touch sides of the viewport */
+.send-money-input, 
+.send-money-select {
+  padding: 10px;
+  margin: 0;
+  width: 100vw; /* Makes input fields extend to the viewport width */
+  box-sizing: border-box; /* Ensures padding is included in the width */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Label styling */
+.send-money-label {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+/* Formatting for the amount and recipient name text */
+.formatted-amount, 
+.send-money-recipient-name {
+  font-size: 1rem;
+  color: #333;
+  padding: 10px 0;
+  border-bottom: 1px solid #ccc;
+}
+
+/* Button styling */
+.send-money-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 15px;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 5px;
+  margin-top: 1.5rem; /* Adds spacing between input fields and button */
+}
+
+/* NavigationLink section */
+.navigation-links-container {
+  margin-top: 2rem; /* Space between the send button and NavigationLink */
+  height: 50px; /* Ensures there's enough height for spacing on mobile */
+}
+
+/* Transaction status styling */
+.transaction-status {
+  font-size: 1rem;
+  color: green;
+  text-align: center;
+}
+
+/* Responsive behavior on smaller screens */
+@media (max-width: 768px) {
+  .send-money-input,
+  .send-money-select {
+    padding: 8px;
+    font-size: 0.9rem;
+  }
+
+  .send-money-button {
+    font-size: 1rem;
+    padding: 8px 10px;
+  }
+}

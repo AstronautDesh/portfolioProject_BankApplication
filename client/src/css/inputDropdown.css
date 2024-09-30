@@ -1,0 +1,35 @@
+.login-dropdown {
+  width: 100% !important;
+  height: 100% !important;
+  border: 2rem solid rgb(97, 32, 8);
+}
+.dropdownGrid{
+  width: 40%;
+  height: 250px;
+  border: 5px solid;
+  box-shadow: .2rem .3rem .2rem rgb(196, 180, 150);
+  padding: 1rem;
+  font-weight: 600;
+}
+.login-dropdown .dropdown-menu {
+  background-color: #fff; /* Menu background color */
+  border: 1px solid #ddd; /* Border color */
+  border-radius: 4px; /* Rounded corners */
+}
+.formInputGrid{
+  width: 100%;
+  height: 4rem;
+}
+.login-dropdown .form-control {
+  margin-top: .5rem; /* Space above the input */
+  border-radius: .3rem; /* Rounded corners */
+}
+.login-dropdown .btn-success {
+  background-color: #28a745; /* Button background color */
+  border: none; /* Remove border */
+  border-radius: 4px; /* Rounded corners */
+  padding: .5rem 1rem;
+  font-weight: bold;
+  font-size: 1.5rem;
+
+}

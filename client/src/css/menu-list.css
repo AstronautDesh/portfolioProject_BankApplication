@@ -1,0 +1,35 @@
+.menu-lists{
+    width: fit-content;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 7rem;
+    right: .3rem;
+    margin-top: 8rem;
+}
+.menu-lists .col-link{
+    margin-bottom: 1rem;
+    text-decoration: none;
+    color: lightcoral;
+}
+.col-link:hover {
+    text-decoration: none;
+    color: rgb(59, 3, 3);
+    scale: 1;
+    transition: all .3s ease-in-out;
+  }
+  .menu-lists .col-link .text-center{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: .5rem auto;
+    text-decoration: none;
+    color: inherit;
+}
+.menu-lists .col-link .text-center p{
+    font-size: 1rem;
+    font-weight: bold;
+    font-family: var(--fontFamilyMacondo);
+}

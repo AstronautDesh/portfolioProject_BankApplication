@@ -1,0 +1,103 @@
+/*ContactPage Stylesheet */
+  .contact {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  #pitch-box {
+    font-family:var(--fontFamilyMacondo);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+  }
+  
+  .contact-pitch {
+    width: fit-content;
+    height: var(--absoluteHeight);
+    font-size: calc(3vw + 1.2rem);
+    text-justify: newspaper;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    text-shadow: .1rem .1rem 0px orchid;
+    padding: 0px 1rem;
+  }
+
+  .icon-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: .1px;
+    width: var(--width);
+    height: 200px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 2px;
+    background-color: rgba(255, 255, 255, 0.1); /* Optional: adds a slight background */
+  }
+
+.icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: last baseline;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  height: var(--height);
+}
+
+.icon-container::before {
+  content: attr(data-contact);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--width);
+  height: var(--height);
+  padding: 10px;
+  background-color: rgba(38, 2, 37, 0.9);
+  color: white;
+  text-align: center;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+}
+
+.icon-container:hover::before {
+  transform: translateY(0);
+}
+
+.icon {
+  font-size: 2rem;
+  transition: all 0.3s ease;
+  margin-bottom: 1rem;
+  z-index: 1;
+}
+
+.icon-container:hover .icon {
+  transform: translateY(-50px);
+  opacity: 0.2;
+}
+
+/* Specific styles for each icon type */
+.phone { color: #007bff; }
+.email { color: #28a745; }
+.whatsapp { color: #25D366; }
+.facebook { color: #3b5998; }
+.twitter { color: #1DA1F2; }
+
+@media screen and (min-width: 481px) and (max-width: 834px) {}
+

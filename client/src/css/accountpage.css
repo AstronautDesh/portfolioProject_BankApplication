@@ -1,0 +1,55 @@
+.account {
+    width: var(--width);
+    height: var(--height);
+    font-family: var(--fontFamilyMacondo);
+    background-color: var(--bgColorOverlay);
+}
+.account .account-grid {
+    width: fit-content;
+    display: grid;
+    justify-content: center;
+    padding: .5rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: var(--width);
+}
+.account-type,
+.internet-banking {
+    background-color: rgb(76, 4, 76);
+    margin: .5rem 0px;
+    padding: .7rem;
+    width: calc(100% - 8px);
+    height: fit-content;
+    border-radius: .5rem;
+    box-shadow: .1rem .2rem rgb(228, 215, 215);
+}
+.linktag {
+    text-decoration: none;
+}
+
+.account-type:hover,
+.internet-banking:hover {
+    background-color: var(--hoverBgCol);
+    transition: all .3s ease-in-out;
+    scale: .9;
+}
+.account-type h3,
+.internet-banking h3 {
+    text-align: center;
+    color: wheat;
+    font-size: var(--fs);
+}
+@media screen and (min-width: 481px) and (max-width: 834px) {
+    .account-type,
+    .internet-banking {
+        width: var(--width);
+    }
+    .account-type h3,
+    .internet-banking h3 {
+        font-size: 1.7rem;
+        padding: .2rem;
+    }
+
+}

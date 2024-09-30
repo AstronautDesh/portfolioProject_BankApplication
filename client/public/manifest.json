@@ -1,0 +1,15 @@
+{
+  "short_name": "Your App",
+  "name": "Bank Of The SouthWesternLands",
+  "icons": [
+    {
+      "src": "",
+      "sizes": "",
+      "type": "image/x-icon"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

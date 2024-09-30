@@ -1,0 +1,143 @@
+/* Main.css */
+:root {
+  --bgColor: rgb(239, 232, 232);
+  --bgColorThin: rgba(239, 232, 232, 0.1);
+  --width: 100%;
+  --absoluteWidth: 100vw;
+  --height: 100%;
+  --absoluteHeight: 100vh;
+  --margin: 0;
+  --padding: 0;
+  --fw: bold;
+  --fwThin: 600;
+  --fs: 1.3rem;
+  --overlay: rgba(223, 200, 159, 0.6);
+  --bgColorOverlay: rgba(239, 232, 232, 0.7);
+  --primaryColor: rgb(74, 22, 2);
+  --hoverBgCol: rgb(117, 36, 7);
+  --fontFamilyMacondo: 'Macondo', sans-serif;
+}
+
+@font-face {
+  font-family: 'Macondo';
+  src: url(./Fontz/Macondo-Regular.woff);
+}
+
+* {
+  margin: var(--margin);
+  padding: var(--padding);
+  box-sizing: border-box;
+}
+
+.Main-Container {
+  width: var(--width);
+  height: var(--absoluteHeight);
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bgColor);
+  position: fixed;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.Main-Container header {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: clamp(200px, 50vw, 400px);
+  height: clamp(150px, 30vh, 200px);
+  border: clamp(0.5rem, 2vw, 1rem) solid rgb(164, 7, 7);
+  box-shadow: clamp(0.1rem, 0.5vw, 0.2rem) clamp(0.15rem, 0.75vw, 0.3rem) clamp(0.1rem, 0.5vw, 0.2rem) rgb(113, 3, 110);
+}
+
+.Main-Container header h1 {
+  font-size: clamp(1.8rem, calc(1rem + 2vw), 2.5rem);
+  font-weight: var(--fw);
+  font-family: var(--fontFamilyMacondo);
+  margin-top: clamp(2rem, 10vh, 4rem);
+  height: fit-content;
+}
+
+.home,
+.about,
+.contact,
+.career,
+.open_account,
+.account-dashboard,
+.transaction-form,
+ .morepage,
+ .inboxpage,
+.login-dropdown,
+.send-money-container,
+.sendMoney {
+  position: relative;
+  font-family: var(--fontFamilyMacondo);
+  background-color: var(--bgColorOverlay);
+  z-index: 10;
+  height: var(--absoluteHeight);
+  width: var(--absoluteWidth);
+  padding: 0.9rem;
+  overflow-x: hidden;
+  margin: var(--margin);
+  padding: var(--padding);
+  box-sizing: border-box;
+}
+
+/* Global Link for navigating to AccountsPage.js */
+/* Global Link for navigating to AccountsPage.js */
+.back-link-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 10px 0;
+  z-index: 1000;
+  font-family: var(--fontFamilyMacondo);
+  margin-top: 2rem;
+}
+.link-container{
+  display: flex;
+  justify-content: space-between;
+  padding: 0px .5rem;
+}
+
+.back {
+  display: block;
+  width: fit-content;
+  margin: 0 auto;
+  color: rgb(46, 2, 45);
+  font-weight: var(--fwThin);
+  padding: 0.5rem;
+  text-align: center;
+}
+
+@media screen and (min-width: 481px) and (max-width: 834px) {
+  .Main-Container header {
+    width: clamp(200px, 50vw, 300px);
+    height: clamp(120px, 25vh, 250px);
+  }
+  
+  .Main-Container header h1 {
+    font-size: clamp(2rem, calc(1rem + 3.5vw), 3rem);
+    font-weight: var(--fw);
+    font-family: var(--fontFamilyMacondo);
+    margin-top: clamp(2rem, 10vh, 4rem);
+    height: fit-content;
+  }
+}
+
+@media screen and (min-width: 835px) and (max-width: 1290px) {
+  .Main-Container header {
+    width: clamp(300px, 50vw, 450px);
+    height: clamp(200px, 40vh, 350px);
+  }
+  
+  .Main-Container header h1 {
+    font-size: clamp(3rem, calc(1.3rem + 4vw), 4rem);
+    font-weight: var(--fw);
+    font-family: var(--fontFamilyMacondo);
+    margin-top: clamp(2rem, 10vh, 4rem);
+    height: fit-content;
+  }
+}

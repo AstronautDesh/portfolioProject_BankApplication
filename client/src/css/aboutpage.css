@@ -1,0 +1,62 @@
+.about .about-grid{
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+}
+.about-grid-left{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.about-grid-right{
+  margin: 0;
+}
+.about .about-grid .about-grid-left .about-text{
+  width: var(--width);
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  font-family: var(  --fontFamilyMacondo);
+  hyphens: auto;
+  padding: .9rem;
+  background-color: var(--bgColorOverlay);
+  --primaryColor: rgb(74, 22, 2);
+  line-height: 1.4;
+  margin-top: .1rem;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.about .about-grid .about-grid-right .img-grid{
+  margin: 0 auto;
+  background-image: url(../img/woman.png);
+  background-repeat: no-repeat;
+  background-position: 100% right;
+  background-size: cover;
+  width: 85%;
+  height: 500px;
+  padding: .4rem;
+  border-radius: .5rem;
+  box-shadow: .3rem .1rem rgb(57, 38, 2);
+}
+
+/** Media Query **/
+@media screen and (min-width: 835px) and (max-width: 1290px) {
+  .about{
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+  }
+.about-grid{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.about-grid-left{
+  width: 60%;
+}
+.about .about-grid .about-grid-right{
+  width: 40%;
+}
+}

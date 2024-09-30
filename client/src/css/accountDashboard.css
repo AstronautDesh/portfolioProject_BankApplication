@@ -1,0 +1,65 @@
+/* accountDashboard.css */
+.account-dashboard {
+  padding: 20px;
+  width: 90%;
+  height: 100vh; /* Full viewport height */
+  overflow-y: auto; /* Enable vertical scrolling */
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #007bff transparent; /* Firefox */
+}
+
+.account-dashboard::-webkit-scrollbar {
+  width: 8px; /* Custom scrollbar width */
+}
+
+.account-dashboard::-webkit-scrollbar-track {
+  background: transparent; /* Scrollbar track color */
+}
+
+.account-dashboard::-webkit-scrollbar-thumb {
+  background-color: #007bff; /* Scrollbar thumb color */
+  border-radius: 10px; /* Rounded corners for scrollbar */
+}
+
+.feature-card {
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.feature-icon {
+  color: #007bff;
+}
+
+.user-info-card {
+  background-color: #f8f9fa;
+  border-left: 4px solid #007bff;
+  width: 500px;
+  margin: 7rem auto;
+  padding: 0.5rem;
+}
+
+.user-name {
+  color: #343a40;
+  font-weight: bold;
+}
+
+.account-number,
+.account-balance {
+  color: #6c757d;
+}
+
+.account-balance {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+@media (max-width: 768px) {
+  .account-dashboard {
+    padding: 10px;
+  }
+}

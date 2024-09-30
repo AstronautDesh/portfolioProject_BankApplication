@@ -1,0 +1,135 @@
+/* signUpForm.css */
+
+/* Container to center the form in the middle of the viewport */
+.open_account {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full height of the viewport */
+  }
+  
+  .form-container {
+    width: 100%;
+    max-width: 600px; /* Set max-width for responsiveness */
+    padding: 2rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+  
+  /* Styling the form input fields */
+  .inputbox {
+    position: relative;
+    margin-bottom: 2rem;
+  }
+  
+  .inputbox input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    transition: all 0.3s ease;
+    background-color: #f9f9f9;
+  }
+  
+  .inputbox input:focus {
+    border-color: #007bff;
+    background-color: #fff;
+  }
+  
+  /* Label styling and animation when input is focused or hovered */
+  .inputbox span {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    transition: all 0.3s ease;
+    color: #999;
+  }
+  
+  .inputbox input:focus + span,
+  .inputbox input:not(:placeholder-shown) + span {
+    top: -20px;
+    left: 5px;
+    font-size: 0.9rem;
+    color: #007bff;
+  }
+  
+  .inputbox input:hover + span {
+    color: #0056b3;
+  }
+  
+  /* Submit button styling with hover effect */
+  .submit-btn {
+    text-align: center;
+  }
+  
+  .submit-btn .btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.2rem;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .submit-btn .btn:hover {
+    transform: scale(1.05);
+    background-color: #0056b3;
+  }
+  
+  /* Back link styling */
+  .back-link-container {
+    text-align: center;
+    margin-top: 1.5rem;
+  }
+  
+  .back-link-container .back {
+    color: #007bff;
+    font-size: 1.2rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  
+  .back-link-container .back:hover {
+    color: #0056b3;
+    text-decoration: underline;
+  }
+  
+  /* Error message styling */
+  .error-message {
+    color: red;
+    font-size: 1rem;
+    text-align: center;
+    margin-top: 1rem;
+  }
+  
+  /* For mobile responsiveness */
+  @media (max-width: 576px) {
+    h1 {
+      font-size: 1.8rem;
+    }
+  
+    .inputbox input {
+      font-size: 0.9rem;
+    }
+  
+    .submit-btn .btn {
+      font-size: 1rem;
+      padding: 10px;
+    }
+  }
+  

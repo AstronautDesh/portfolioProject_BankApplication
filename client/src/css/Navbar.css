@@ -1,0 +1,75 @@
+.nav-grid {
+  z-index: 11;
+  background-color: var(--bgColorThin);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: fit-content;
+  padding: 0px 1rem 0px 0px;
+  font-family: 'Macondo';
+  width: 95%;
+  margin: 0 auto;
+}
+.brand {
+  display: none;
+  font-size: var(--fs);
+  font-weight: var(--fw);
+}
+.icon-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  box-sizing: border-box;
+  margin-left: 95%;
+  margin-top: 1rem;
+}
+.icon {
+  font-size: 1.5rem;
+  transition: transform 0.3s ease;
+  font-weight: var(--fw);
+  color: rgb(99, 5, 5);
+}
+.icon-button:hover .icon {
+  transform: scale(1.1);
+}
+@media screen and (min-width: 481px) and (max-width: 834px) {
+  .brand{
+    display: block;
+    font-size: 2rem;
+    text-shadow: .1rem .1rem orchid;
+  }
+  .icon-button {
+    width: 200px;
+    height: 60px;
+    text-align: end;
+    margin: 0;
+  }
+  .icon {
+    font-size: 1.5rem;
+    font-weight: var(--fw);
+    color: rgb(99, 5, 5);
+  }
+  .icon-button {
+    margin: 0;
+  }
+}
+@media screen and (min-width: 835px) and (max-width: 1290px){
+  .brand{
+    display: block;
+    font-size: 2rem;
+    text-shadow: .1rem .1rem orchid;
+  }
+  .icon-button {
+    width: 200px;
+    height: 60px;
+    text-align: end;
+    margin: .5rem 0px;
+    padding-right: 2rem;
+  }
+  .icon {
+    font-size: 2rem;
+  }
+}
+
