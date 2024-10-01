@@ -11,31 +11,39 @@ import {
   FaTrash,
 } from 'react-icons/fa';
 import { logoutUser, uploadUserImage } from '../store/actions/userActions';
+import '../css/accountDashboard.css';
 
 const AccountDashboard = () => {
+  // eslint-disable-next-line
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploadStatus, setUploadStatus] = useState(null);
   const [imageLoading, setImageLoading] = useState(true);
   const dispatch = useDispatch();
-  const { userInfo, isAuthenticated } = useSelector((state) => state.user || {});
-  //const user = userInfo?.user || {};
   const navigate = useNavigate();
 
-   // Use useMemo to memoize the user object
-   const user = useMemo(() => userInfo?.user || {}, [userInfo]);
+ // Access user information and authentication status from Redux state
+const { userInfo = {}, isAuthenticated = false } = useSelector((state) => state.user || {});
 
+// Safely handle user information, fallback to an empty object if userInfo is not yet populated
+//const user = userInfo || {};
+const user = useMemo(() => userInfo || {}, [userInfo]);
 
-  useEffect(() => {
-    if (userInfo.accountNumber) {
-      console.log('Account Number in AccountDashboard:', user.accountNumber);
-    }
-    console.log('Current user state:', user);
-  }, [user]);
+// Only access user properties if userInfo is properly loaded
+useEffect(() => {
+  if (user && user.accountNumber) {
+    console.log('Account Number in AccountDashboard:', user.accountNumber);
+  } else {
+    console.log('User information not available yet.');
+  }
+
+  console.log('Current user state:', user);
+  console.log('Authentication status:', isAuthenticated);
+}, [user, isAuthenticated]);
+
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
-    console.log('Selectec File:', selectedFile);
     if (file) {
       handleUpload(file);
     }
@@ -52,7 +60,6 @@ const AccountDashboard = () => {
     const formData = new FormData();
     formData.append('image', file);
     formData.append('userId', user._id);
-    console.log('Uploading for user ID:', user._id);
     dispatch(uploadUserImage(formData))
       .then(() => {
         setUploadStatus('success');
@@ -66,7 +73,6 @@ const AccountDashboard = () => {
   };
 
   const handleDelete = () => {
-    // TODO: Implement delete functionality
     console.log('Delete functionality not yet implemented');
   };
 
@@ -138,10 +144,8 @@ const AccountDashboard = () => {
     return formattedPath.startsWith('uploads/') ? formattedPath : `uploads/${formattedPath}`;
   };
 
-
-  const userImageSrc = getUserImageSrc(userInfo.image);
+  const userImageSrc = getUserImageSrc(user.image);
   console.log('Path Defined:', userImageSrc);
-
 
   return (
     <Container className="py-5 account-dashboard" style={{ height: '100vh', overflowY: 'auto' }}>
@@ -190,9 +194,9 @@ const AccountDashboard = () => {
           </div>
           {uploadStatus && <p className="upload-status">{getStatusText()}</p>}
           <div className="text-center">
-            <h3 className="user-name">{userInfo.fullname || 'Account Holder Name'}</h3>
-            <p className="account-number">Account Number: {userInfo.accountNumber || '***786'}</p>
-            <p className="account-balance">Current Balance: ₦{userInfo.currentBalance || '--,--'}</p>
+            <h3 className="user-name">{user.fullname || 'Account Holder Name'}</h3>
+            <p className="account-number">Account Number: {user.accountNumber || '***786'}</p>
+            <p className="account-balance">Current Balance: ₦{user.currentBalance || '--,--'}</p>
           </div>
         </Card.Body>
       </Card>

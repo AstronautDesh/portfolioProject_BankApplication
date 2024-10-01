@@ -1,3 +1,4 @@
+// server/server.js
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
@@ -5,12 +6,9 @@ const mongoose = require('mongoose');
 const path = require('path');
 const morgan = require('morgan');
 
-// Import routes
 const userRoutes = require('./routes/userRoutes');
 const transactionRoutes = require('./routes/transactionRoutes');
-
-// Import Winston Logger
-const logger = require('./utils/logger'); // Import the logger
+const logger = require('./utils/logger');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -19,7 +17,8 @@ const port = process.env.PORT || 5000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
-  origin: 'http://localhost:3000', // Allow requests from the React app
+  origin: 'http://localhost:3000',
+  credentials: true,
 }));
 app.use(morgan('common'));
 
@@ -48,6 +47,12 @@ app.use((req, res, next) => {
 
 app.get('/favicon.ico', (req, res) => {
   res.status(204).end();
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  logger.error('Unhandled error:', err);
+  res.status(500).json({ message: 'Internal server error' });
 });
 
 // Start the server

@@ -83,6 +83,7 @@ const uploadUserImage = async (req, res) => {
 
     const baseUrl = process.env.BASE_URL || 'http://localhost:5000';
     const imagePath = `${baseUrl}/uploads/${req.file.filename}`;
+    console.log('Full Path Backend:', imagePath);
 
     // Verify file exists
     await fs.access(path.join(__dirname, '..', 'uploads', req.file.filename));

@@ -14,7 +14,14 @@ const upload = require('../config/multer_config');
 router.post('/signup', signup);
 
 // POST route to upload user image
-router.post('/upload-image', upload.single('image'), uploadUserImage);
+//router.post('/upload-image', upload.single('image'), uploadUserImage);
+
+router.post('/upload-image', upload.single('image'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).send({ message: 'No file uploaded' });
+  }
+  res.send({ image: req.file.path });
+});
 
 // POST /check-user - Check if a user exists
 router.post('/check-user', async (req, res) => {
