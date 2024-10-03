@@ -32,8 +32,12 @@ mongoose.connect(process.env.DB_URL)
     logger.error('MongoDB connection error:', err);
   });
 
-// Serve static files from the 'uploads' directory
+// Serve static files from 'uploads' directory
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// Serve static placeholder images (if any)
+app.use('/uploads/placeholder', express.static(path.join(__dirname, 'uploads/placeholder')));
+
 
 // Use routes
 app.use('/api/users', userRoutes);

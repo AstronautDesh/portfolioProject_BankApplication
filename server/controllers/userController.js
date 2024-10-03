@@ -1,58 +1,149 @@
 // /controllers/userController.js
 const { User, generatePIN, generateAccountNumber } = require("../models/User");
-const multer = require('multer');
 const path = require('path');
-const fs = require('fs').promises;
-const upload = multer({ dest: 'uploads/' });
+const fs = require('fs');
+const { upload } = require('../config/multer_config');
 
+const uploadUserImage = async (req, res) => {
+  const userId = req.body.userId;
+  if (!userId) {
+    return res.status(400).json({ error: 'User ID is required' });
+  }
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Delete the previous image, if any
+    if (user.image) {
+      const oldImagePath = path.join(__dirname, '..', user.image);
+      if (fs.existsSync(oldImagePath)) {
+        await fs.promises.unlink(oldImagePath);
+        console.log('Old image deleted:', oldImagePath);
+      }
+    }
+
+    // Update user's image field with the new image's path
+    const newImagePath = `/uploads/${req.file.filename}`;
+    user.image = newImagePath;
+    await user.save();
+
+    console.log('New image uploaded:', newImagePath);
+    return res.json({ success: true, imagePath: user.image });
+  } catch (error) {
+    console.error('Error uploading image:', error);
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({ error: 'Invalid image path', details: error.message });
+    }
+    return res.status(500).json({ error: 'Image upload failed', details: error.message });
+  }
+};
+
+// Delete user image controller
+const deleteUserImage = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    console.log('Deleting image for user:', userId);
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    if (user.image) {
+      console.log('Image selected for delete:', user.image);
+      const imagePath = path.join(__dirname, '..', user.image);
+      if (fs.existsSync(imagePath)) {
+        await fs.promises.unlink(imagePath);
+        console.log('Image file deleted:', imagePath);
+      }
+    }
+
+    // Update user's image field in the database to null
+    user.image = '';
+    await user.save();
+
+    console.log('Image successfully deleted for user:', userId);
+    return res.status(200).json({ message: 'Image deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting image:', error);
+    return res.status(500).json({ error: 'Image deletion failed', details: error.message });
+  }
+};
+
+// Serve the user’s image
+const serverUserImage = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    console.log('Fetching image for user:', userId);
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    
+    if (!user.image) {
+      // If user has no image, send the placeholder
+      return res.sendFile(path.join(__dirname, '..', 'uploads', 'placeholder', 'placeholder.jpg'));
+    }
+    
+    const imagePath = path.join(__dirname, '..', user.image);
+    if (fs.existsSync(imagePath)) {
+      return res.sendFile(imagePath);
+    } else {
+      // If image file doesn't exist, send the placeholder
+      return res.sendFile(path.join(__dirname, '..', 'uploads', 'placeholder', 'placeholder.jpg'));
+    }
+  } catch (error) {
+    console.error('Error fetching image:', error);
+    return res.status(500).json({ error: 'Failed to fetch image' });
+  }
+};
+
+
+// Signup controller
 const signup = async (req, res) => {
   console.log("Signup function called");
   console.log("Request body:", req.body);
+
   try {
     const { fullname, email, tel, password, image } = req.body;
 
-    // Validate request data
+    // Check if required fields are filled
     if (!fullname || !email || !tel || !password) {
       return res.status(400).json({ error: "All fields are required" });
     }
 
-    // Check if user already exists
+    // Check if the user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res
-        .status(400)
-        .json({ error: "User with this email already exists" });
+      return res.status(400).json({ error: "User with this email already exists" });
     }
 
-    // Generate unique PIN and account number for the user
-    const pin = await generatePIN();
-    const accountNumber = await generateAccountNumber();
-
-    // Create a new user instance
+    // Create a new user
     const newUser = new User({
       fullname,
       email,
       tel,
       password,
-      image,
-      pin,
-      accountNumber,
+      image
     });
 
-    // Save the user to the database
+    // Save the new user to the database
     const savedUser = await newUser.save();
 
-    // Return response with user data (excluding sensitive information)
+    console.log('User created successfully:', savedUser);
+
     res.status(201).json({
       message: "User created successfully",
       user: {
-        _id: savedUser._id,  // Include the _id field
+        _id: savedUser._id,
         fullname: savedUser.fullname,
         email: savedUser.email,
         tel: savedUser.tel,
-        pin: savedUser.pin,
-        accountNumber: savedUser.accountNumber,
-        currentBalance: savedUser.currentBalance,
       },
     });
   } catch (err) {
@@ -61,46 +152,11 @@ const signup = async (req, res) => {
   }
 };
 
-
-// Image upload controller
-const uploadUserImage = async (req, res) => {
-  try {
-    if (!req.file) {
-      return res.status(400).json({ message: 'No file uploaded' });
-    }
-
-    const userId = req.body.userId;
-    console.log('Received user ID:', userId);
-
-    if (!userId) {
-      return res.status(400).json({ message: 'User ID is missing' });
-    }
-
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-
-    const baseUrl = process.env.BASE_URL || 'http://localhost:5000';
-    const imagePath = `${baseUrl}/uploads/${req.file.filename}`;
-    console.log('Full Path Backend:', imagePath);
-
-    // Verify file exists
-    await fs.access(path.join(__dirname, '..', 'uploads', req.file.filename));
-
-    user.image = imagePath;
-    await user.save();
-
-    res.json({ message: 'Image uploaded successfully', image: user.image });
-  } catch (error) {
-    console.error('Error in uploadUserImage:', error);
-    res.status(500).json({ message: 'Error uploading image', error: error.message });
-  }
-};
-
-
-// Exporting the controller functions
-module.exports = { signup,
+// Export controllers
+module.exports = {
+  signup,
   uploadUserImage,
+  deleteUserImage,
+  serverUserImage,
   upload
- };
+};

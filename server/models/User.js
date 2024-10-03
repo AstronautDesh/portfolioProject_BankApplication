@@ -43,10 +43,13 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: '',
     validate: {
-      validator: (v) => validator.isURL(v) || /^uploads[\\/][^/]+\.[a-zA-Z]+$/.test(v.replace(/\\/g, '/')) || v === '',
-      message: (props) => `${props.value} is not a valid image path or URL!`,
+      validator: function(v) {
+        if (v === '') return true;
+        return validator.isURL(v) || /^\/uploads\/.*/.test(v);
+      },
+      message: props => `${props.value} is not a valid image path or URL!`,
     },
-  },  
+  },
   pin: {
     type: String,
     required: true,

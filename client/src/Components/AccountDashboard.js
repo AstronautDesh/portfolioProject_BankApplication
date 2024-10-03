@@ -1,7 +1,11 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Container, Row, Col, Card, Image, Spinner } from 'react-bootstrap';
+import { Container, Row, Col, Card, Image, Spinner, Alert } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios'; // Import axios for API call
+import { logoutUser } from '../store/actions/userActions';
+import { uploadUserImage, deleteUserImage } from '../api/imageApi';
+
 import {
   FaPaperPlane,
   FaInbox,
@@ -10,71 +14,103 @@ import {
   FaCamera,
   FaTrash,
 } from 'react-icons/fa';
-import { logoutUser, uploadUserImage } from '../store/actions/userActions';
 import '../css/accountDashboard.css';
 
 const AccountDashboard = () => {
-  // eslint-disable-next-line
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploadStatus, setUploadStatus] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null); 
   const [imageLoading, setImageLoading] = useState(true);
+  const [userImageSrc, setUserImageSrc] = useState(''); 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
- // Access user information and authentication status from Redux state
-const { userInfo = {}, isAuthenticated = false } = useSelector((state) => state.user || {});
+  const { userInfo = {}, isAuthenticated = false } = useSelector((state) => state.user || {});
+  const user = useMemo(() => userInfo || {}, [userInfo]);
 
-// Safely handle user information, fallback to an empty object if userInfo is not yet populated
-//const user = userInfo || {};
-const user = useMemo(() => userInfo || {}, [userInfo]);
+  // Fetch user image from the database when component mounts
+  useEffect(() => {
 
-// Only access user properties if userInfo is properly loaded
-useEffect(() => {
-  if (user && user.accountNumber) {
-    console.log('Account Number in AccountDashboard:', user.accountNumber);
-  } else {
-    console.log('User information not available yet.');
-  }
+    const fetchUserImage = async () => {
+      try {
+        console.log(`Fetching image for user with ID: ${user._id}`);
+    
+        const response = await axios.get(`/api/users/${user._id}/image`, {
+          responseType: 'blob'  // This tells Axios to expect binary data
+        });
+        console.log('Server response:', response);
+    
+        if (response.data) {
+          const imageUrl = URL.createObjectURL(response.data);
+          setUserImageSrc(imageUrl);
+        } else {
+          setUserImageSrc('/uploads/placeholder/placeholder.jpg');
+        }
+        setImageLoading(false);
+      } catch (error) {
+        console.error('Error fetching user image:', error);
+        setErrorMessage('Failed to load user image.');
+        setUserImageSrc('/uploads/placeholder/placeholder.jpg');
+        setImageLoading(false);
+      }
+    };
+  
+    if (user._id) {
+      fetchUserImage();
+    }
+  }, [user._id]);
 
-  console.log('Current user state:', user);
-  console.log('Authentication status:', isAuthenticated);
-}, [user, isAuthenticated]);
+  // Clear success/error messages after 3 seconds
+  useEffect(() => {
+    if (uploadStatus || errorMessage) {
+      const timer = setTimeout(() => {
+        setUploadStatus(null);
+        setErrorMessage(null);
+      }, 3000); 
+      return () => clearTimeout(timer);
+    }
+  }, [uploadStatus, errorMessage]);
 
-
-  const handleFileChange = (event) => {
+  // Handle file selection for image upload
+  const handleFileChange = async (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
-    if (file) {
-      handleUpload(file);
-    }
-  };
-
-  const handleUpload = (file) => {
-    if (!file) return;
-    if (!user._id) {
-      console.error('User ID is undefined');
-      setUploadStatus('error');
-      return;
-    }
-    setUploadStatus('uploading');
-    const formData = new FormData();
-    formData.append('image', file);
-    formData.append('userId', user._id);
-    dispatch(uploadUserImage(formData))
-      .then(() => {
+    console.log('Selected File Here:', selectedFile);
+  
+    if (file && user._id) {
+      const formData = new FormData();
+      formData.append('image', file);
+      formData.append('userId', user._id);
+  
+      try {
+        const response = await uploadUserImage(formData);
+        console.log('Upload Response:', response);
+        setUserImageSrc(response.imagePath);
         setUploadStatus('success');
-        setTimeout(() => setUploadStatus(null), 3000);
-      })
-      .catch((error) => {
-        console.error('Upload error:', error);
+      } catch (error) {
+        console.error('Image upload failed:', error);
+        setErrorMessage(error.response?.data?.error || 'Image upload failed. Please try again.');
         setUploadStatus('error');
-        setTimeout(() => setUploadStatus(null), 3000);
-      });
+      }
+    }
   };
 
-  const handleDelete = () => {
-    console.log('Delete functionality not yet implemented');
+  // Handle image deletion
+  const handleDelete = async () => {
+    if (user._id) {
+      try {
+        await deleteUserImage(user._id);  // Use the API function here
+        setUserImageSrc('/uploads/placeholder/placeholder.jpg');
+        setUploadStatus('success');
+        console.log('Unmasked:', user._id);
+      } catch (error) {
+        console.error('Failed to delete image:', error);
+        setErrorMessage('Failed to delete image. Please try again.');
+        setUploadStatus('error');
+      }
+    }
   };
+
 
   const redirectToLogin = () => {
     navigate('/login-dropdown');
@@ -90,9 +126,9 @@ useEffect(() => {
       case 'uploading':
         return 'Uploading...';
       case 'success':
-        return 'Upload Successful';
+        return 'Operation Successful';
       case 'error':
-        return 'Upload Failed';
+        return 'Operation Failed';
       default:
         return null;
     }
@@ -103,7 +139,6 @@ useEffect(() => {
       <Container className="d-flex justify-content-center align-items-center vh-100">
         <Card className="p-5 text-center clickable-card" onClick={redirectToLogin}>
           <h5>Please log in to view your dashboard.</h5>
-          <p className="text-muted">Click here to log in.</p>
         </Card>
       </Container>
     );
@@ -136,20 +171,10 @@ useEffect(() => {
     },
   ];
 
-  const getUserImageSrc = (imagePath) => {
-    if (!imagePath) return 'https://via.placeholder.com/150';
-
-    // Replace backslashes with forward slashes for URLs
-    const formattedPath = imagePath.replace(/\\/g, '/');
-    return formattedPath.startsWith('uploads/') ? formattedPath : `uploads/${formattedPath}`;
-  };
-
-  const userImageSrc = getUserImageSrc(user.image);
-  console.log('Path Defined:', userImageSrc);
-
   return (
-    <Container className="py-5 account-dashboard" style={{ height: '100vh', overflowY: 'auto' }}>
-      <Row className="mb-4 g-3">
+    <Container fluid className="py-5 account-dashboard" style={{ height: '100vh', overflowY: 'auto' }}>
+
+<Row className="mb-4 g-3">
         {features.map((feature, index) => (
           <Col key={index} lg={3} md={6} sm={12}>
             <Link to={feature.link} className="text-decoration-none">
@@ -169,15 +194,12 @@ useEffect(() => {
         <Card.Body className="d-flex flex-column align-items-center">
           {imageLoading && <Spinner animation="border" />}
           <Image
-            src={user.image || 'https://via.placeholder.com/150'}
+            src={userImageSrc || '/uploads/placeholder/placeholder.jpg'}
             roundedCircle
             className="user-image"
             alt="User profile"
             onLoad={() => setImageLoading(false)}
-            onError={() => {
-              setImageLoading(false);
-              console.error('Error loading image:', user.image);
-            }}
+            onError={() => setImageLoading(false)}
             style={{ display: imageLoading ? 'none' : 'block' }}
           />
           <div className="image-upload-controls">
@@ -193,6 +215,8 @@ useEffect(() => {
             <FaTrash size={24} className="trash-icon" onClick={handleDelete} />
           </div>
           {uploadStatus && <p className="upload-status">{getStatusText()}</p>}
+          {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
+
           <div className="text-center">
             <h3 className="user-name">{user.fullname || 'Account Holder Name'}</h3>
             <p className="account-number">Account Number: {user.accountNumber || '***786'}</p>
@@ -200,12 +224,6 @@ useEffect(() => {
           </div>
         </Card.Body>
       </Card>
-
-      <div className="back-link-container">
-        <Link to="/account" className="linktag">
-          <h3 className="back">Go Back To Accounts</h3>
-        </Link>
-      </div>
 
       <button type="button" className="btn btn-danger mt-3" onClick={logoutAndRedirect}>
         Log Out

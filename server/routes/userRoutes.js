@@ -2,26 +2,20 @@
 const express = require('express');
 const bcrypt = require('bcrypt'); 
 const router = express.Router();
-const { signup } = require('../controllers/userController');
+const { signup, uploadUserImage, deleteUserImage, serverUserImage, upload} = require('../controllers/userController');
 const { User } = require('../models/User'); 
 const logger = require('../utils/logger'); // Import the logger
-const { uploadUserImage } = require('../controllers/userController'); // Importing the controller and upload middleware
-//const { protect } = require('../middleware/authMiddleware'); // Assuming you have authentication middleware
-const upload = require('../config/multer_config');  
 
 
-// POST /signup - Register a new user
-router.post('/signup', signup);
 
-// POST route to upload user image
-//router.post('/upload-image', upload.single('image'), uploadUserImage);
+//POST /upload-image - Upload User Image
+router.post('/upload-image', upload.single('image'), uploadUserImage);
 
-router.post('/upload-image', upload.single('image'), (req, res) => {
-  if (!req.file) {
-    return res.status(400).send({ message: 'No file uploaded' });
-  }
-  res.send({ image: req.file.path });
-});
+//DELETE /delete-image - Delete User Image
+router.delete('/delete-image/:userId', deleteUserImage);
+
+// GET /users/:userId/image - Serve User Image
+router.get('/:userId/image', serverUserImage);
 
 // POST /check-user - Check if a user exists
 router.post('/check-user', async (req, res) => {
@@ -47,6 +41,9 @@ router.post('/check-user', async (req, res) => {
     res.status(500).json({ error: 'Error checking user' });
   }
 });
+
+// POST /signup - Register a new user
+router.post('/signup', signup);
 
 
 // POST /login - Authenticate user using PIN or Password
