@@ -1,73 +1,118 @@
-/* Center the form on the viewport */
+/* General Container Styling */
 .send-money-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh; /* Ensures it's centered vertically */
+  background-color: #f9fafb;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  height: 100vh; /* Ensure full viewport height */
+  padding: 0 50px;
+  overflow: hidden;
+  position: relative;
 }
 
-/* Styling for the input fields to touch sides of the viewport */
-.send-money-input, 
+.send-money-grid {
+  width: 90%;
+  height: auto;
+  display: flex;
+  border: .2px solid rgb(206, 206, 247);
+  padding: 4rem;
+  background-color: #fff;
+  border-radius: 1.5rem;
+  box-shadow: .1rem .2rem .3rem rgb(206, 206, 247);
+}
+
+.send-money-box {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-right: 20px;
+  border-right: 2px solid #e0e0e0;
+}
+
+.send-money-image {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url('../asset/fabrizio-conti.jpg'); /* Placeholder for image */
+  background-size: cover;
+  background-position: center;
+}
+
+.send-money-input,
 .send-money-select {
-  padding: 10px;
-  margin: 0;
-  width: 100vw; /* Makes input fields extend to the viewport width */
-  box-sizing: border-box; /* Ensures padding is included in the width */
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-/* Label styling */
-.send-money-label {
+  padding: .5rem;
+  border-radius: .4rem;
+  border: 1px solid #e0e0e0;
+  width: 100%;
   font-size: 1rem;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-  display: block;
-}
-
-/* Formatting for the amount and recipient name text */
-.formatted-amount, 
-.send-money-recipient-name {
-  font-size: 1rem;
+  background-color: #ffffff, .3;
   color: #333;
-  padding: 10px 0;
-  border-bottom: 1px solid #ccc;
+  margin-bottom: 15px;
 }
 
-/* Button styling */
+.send-money-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 5px;
+}
+
 .send-money-button {
-  background-color: #007bff;
-  color: white;
-  padding: 10px 15px;
-  font-size: 1.1rem;
+  background-color: #000;
+  color: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 16px;
+  width: 100%;
   border: none;
-  border-radius: 5px;
-  margin-top: 1.5rem; /* Adds spacing between input fields and button */
+  transition: background-color 0.3s;
 }
 
-/* NavigationLink section */
-.navigation-links-container {
-  margin-top: 2rem; /* Space between the send button and NavigationLink */
-  height: 50px; /* Ensures there's enough height for spacing on mobile */
+.send-money-button:hover {
+  background-color: #444;
 }
 
-/* Transaction status styling */
+.formatted-amount,
 .transaction-status {
-  font-size: 1rem;
-  color: green;
-  text-align: center;
+  font-size: 16px;
+  font-weight: 500;
+  color: #374151;
 }
 
-/* Responsive behavior on smaller screens */
+.send-money-recipient-name {
+  font-size: 16px;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.navigation-links-container {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+}
+
 @media (max-width: 768px) {
-  .send-money-input,
-  .send-money-select {
-    padding: 8px;
-    font-size: 0.9rem;
+  .send-money-grid {
+    width: 100%;
+    height: auto;
+    flex-direction: column;
+    padding: 20px;
   }
 
-  .send-money-button {
-    font-size: 1rem;
-    padding: 8px 10px;
+  .send-money-grid-box {
+    width: 100%;
+    padding-right: 0;
+    border-right: none;
+  }
+
+  .send-money-grid-image {
+    display: none;
   }
 }

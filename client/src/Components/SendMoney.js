@@ -97,8 +97,10 @@ const SendMoney = () => {
   return (
     <>
       <Container className="send-money-container py-5">
+        <div className="send-money-grid">
+        <div className="send-money-box">
         <Form onSubmit={handleSubmit}>
-          <Row className="send-money-grid">
+          <Row className="send-money-grid-box">
             <Col xs={12} md={6}>
               <Form.Group controlId="recipientAccountNumber" className="mb-3">
                 <Form.Label className="send-money-label">
@@ -174,7 +176,7 @@ const SendMoney = () => {
               </Form.Group>
             </Col>
 
-            <Col xs={12}>
+            <Col xs={12} md={6}>
               <Form.Group className="mb-3">
                 <Form.Label className="send-money-label">
                   Formatted Amount
@@ -216,9 +218,15 @@ const SendMoney = () => {
         {showSuccessModal && (
           <SuccessModal onClose={() => setShowSuccessModal(false)} />
         )}
-        <div className="navigation-links-container">
+        </div>
+        <div className="send-money-image"></div>
+        </div>
+
+        <div className="back-link-container">
           <NavigationLink />
         </div>
+
+
       </Container>
     </>
   );

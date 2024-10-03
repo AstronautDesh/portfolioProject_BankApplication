@@ -1,53 +1,101 @@
-/* accountDashboard.css */
+/* Wrapper that takes up the full viewport */
 .account-dashboard {
-  padding: 20px;
-  width: 90%;
+  width: 100vw;
   height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
 }
 
+/* Centering account grid and setting size */
+.account-grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 600px;
+  width: 900px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow */
+  transition: box-shadow 0.3s ease;
+}
+
+.account-grid:hover {
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3); /* Shadow on hover */
+}
+
+/* Styling feature cards */
 .feature-card {
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  transition: box-shadow 0.3s ease;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
   cursor: pointer;
 }
 
 .feature-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.25); /* Slightly larger shadow on hover */
+  transform: translateY(-5px); /* Lift effect */
+}
+.feature-icon{
+  color: rgb(143, 96, 8);
 }
 
-.feature-icon {
-  color: #007bff;
-}
-
+/* User info card styling */
 .user-info-card {
-  background-color: #f8f9fa;
-  border-left: 4px solid #007bff;
-  width: 400px;
-  margin: 7rem auto;
-  padding: 0.5rem;
+  width: fit-content;
+  height: fit-content;
+  padding: 1rem;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+  transition: box-shadow 0.3s ease;
+  margin-top: 2rem; /* Separate from feature cards */
 }
 
-.user-image{
-  width: 120px;
-  height: 120px;
-}
-.user-name {
-  color: #343a40;
-  font-weight: bold;
+.user-info-card:hover {
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.25); /* Shadow on hover */
 }
 
-.account-number,
-.account-balance {
-  color: #6c757d;
+/* Styling user image inside the user info card */
+.user-image {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.account-balance {
-  font-weight: bold;
-  font-size: 1.1em;
+/* Styling the camera and trash icons */
+.camera-icon,
+.trash-icon {
+  cursor: pointer;
+  margin: 10px;
 }
 
-@media (max-width: 768px) {
-  .account-dashboard {
-    padding: 10px;
-  }
+.camera-icon:hover {
+  color: #007bff; /* Change color on hover */
+}
+.trash-icon:hover{
+  color: orangered;
+}
+
+/* Logout button placed at the bottom left of the screen */
+button.btn-danger {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  z-index: 200;
+}
+
+button.btn-danger:hover {
+  background-color: #c82333; /* Darken color on hover */
+}
+
+/* Pointer cursor for clickable elements */
+input,
+button,
+.card,
+.camera-icon,
+.trash-icon {
+  cursor: pointer;
 }

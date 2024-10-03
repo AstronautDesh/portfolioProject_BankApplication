@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { USER_LOGIN_SUCCESS } from './store/constants/userConstants'; // Add the constants for dispatching
-import Navigate from './Components/Navigate';
+//import Navigate from './Components/Navigate';
 import SignUpForm from './Components/SignUpForm';
 import AccountDashboard from './Components/AccountDashboard';
 import SecurityInputDropdown from './Components/SecurityInputDropdown';
@@ -47,7 +47,8 @@ function Main() {
       <header>
         <h1>Bank Of The SouthWesternLands</h1>
       </header>
-      <Navigate isMenuOpen={isMenuOpen} toggleMenu={toggleMenu} />
+      {/* <Navigate isMenuOpen={isMenuOpen} toggleMenu={toggleMenu} /> */}
+
 
       <Routes>
         <Route path="/" element={<HomePage isMenuOpen={isMenuOpen} />} />

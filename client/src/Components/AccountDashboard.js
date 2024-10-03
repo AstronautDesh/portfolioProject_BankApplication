@@ -172,9 +172,12 @@ const AccountDashboard = () => {
   ];
 
   return (
-    <Container fluid className="py-5 account-dashboard" style={{ height: '100vh', overflowY: 'auto' }}>
+    <>
+    <Container fluid className="account-dashboard" >
 
-<Row className="mb-4 g-3">
+      <div className='account-grid'>
+
+<Row className="feature-cards-div g-3">
         {features.map((feature, index) => (
           <Col key={index} lg={3} md={6} sm={12}>
             <Link to={feature.link} className="text-decoration-none">
@@ -224,11 +227,13 @@ const AccountDashboard = () => {
           </div>
         </Card.Body>
       </Card>
-
-      <button type="button" className="btn btn-danger mt-3" onClick={logoutAndRedirect}>
-        Log Out
-      </button>
+      </div>
     </Container>
+
+<button type="button" className="btn btn-danger mt-3" onClick={logoutAndRedirect}>
+Log Out
+</button>
+</>
   );
 };
 

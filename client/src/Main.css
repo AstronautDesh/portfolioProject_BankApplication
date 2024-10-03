@@ -34,6 +34,8 @@
   height: var(--absoluteHeight);
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   background-color: var(--bgColor);
   position: fixed;
   overflow-x: hidden;
@@ -75,8 +77,8 @@
   font-family: var(--fontFamilyMacondo);
   background-color: var(--bgColorOverlay);
   z-index: 10;
-  height: var(--absoluteHeight);
   width: var(--absoluteWidth);
+  height: var(--absoluteHeight) ;
   padding: 0.9rem;
   overflow-x: hidden;
   margin: var(--margin);

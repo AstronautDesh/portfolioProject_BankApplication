@@ -1,55 +1,106 @@
+/* Account container to ensure position relative for absolute positioning */
 .account {
-    width: var(--width);
-    height: var(--height);
-    font-family: var(--fontFamilyMacondo);
-    background-color: var(--bgColorOverlay);
-}
-.account .account-grid {
-    width: fit-content;
-    display: grid;
+    position: relative;
+    width: var(--absoluteWidth);
+    height: var(--absoluteHeight);
+    display: flex;
     justify-content: center;
-    padding: .5rem;
+    align-items: center;
+    font-family: var(--fontFamilyMacondo);
+  }
+  
+  /* Centering the buttons in a column layout */
+  .account-grid {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
-    width: var(--width);
-}
-.account-type,
-.internet-banking {
-    background-color: rgb(76, 4, 76);
-    margin: .5rem 0px;
-    padding: .7rem;
-    width: calc(100% - 8px);
+    transform: translate(-50%, -50%); /* Centering */
+    display: flex;
+    flex-direction: column;
+    gap: 2rem; /* Spacing between buttons */
+  }
+  
+  /* General Button Styles */
+  .account-type,
+  .internet-banking {
+    width: fit-content;
     height: fit-content;
-    border-radius: .5rem;
-    box-shadow: .1rem .2rem rgb(228, 215, 215);
-}
-.linktag {
-    text-decoration: none;
-}
-
-.account-type:hover,
-.internet-banking:hover {
-    background-color: var(--hoverBgCol);
-    transition: all .3s ease-in-out;
-    scale: .9;
-}
-.account-type h3,
-.internet-banking h3 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(53, 2, 51); /* Default background */
+    color: whitesmoke;
+    font-size: 1rem; /* Responsive font size */
+    border: none;
+    border-radius: .4rem;
+    cursor: pointer;
+    position: relative; /* For hover animation */
+    overflow: hidden;
+    padding: .9rem;
+    transition: all 0.4s ease;
     text-align: center;
-    color: wheat;
-    font-size: var(--fs);
-}
-@media screen and (min-width: 481px) and (max-width: 834px) {
+  }
+  
+  /* Responsive adjustments for smaller screens */
+  @media (max-width: 768px) {
     .account-type,
     .internet-banking {
-        width: var(--width);
+      width: 180px;
+      height: 55px;
+      font-size: 1rem;
     }
-    .account-type h3,
-    .internet-banking h3 {
-        font-size: 1.7rem;
-        padding: .2rem;
+  }
+  
+  @media (max-width: 480px) {
+    .account-type,
+    .internet-banking {
+      width: 160px;
+      height: 50px;
+      font-size: 0.9rem;
     }
-
-}
+  }
+  
+  /* Hover Effect for Open Account (from left to right) */
+  .account-type::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(160, 106, 5);
+    transform: translateX(-100%);
+    transition: transform 0.5s ease-in-out;
+  }
+  
+  .account-type:hover::before,
+  .account-type:focus::before {
+    transform: translateX(0); /* Slide background from left to right */
+  }
+  
+  /* Hover Effect for Sign-In (from right to left) */
+  .internet-banking::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(87, 58, 5);
+    transform: translateX(100%);
+    transition: transform 0.5s ease-in-out;
+  }
+  
+  .internet-banking:hover::before,
+  .internet-banking:focus::before {
+    transform: translateX(0); /* Slide background from right to left */
+  }
+  
+  /* Ensure the text remains on top of the hover effect */
+  .account-type h3,
+  .internet-banking h3 {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+  }
+  

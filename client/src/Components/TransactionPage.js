@@ -3,6 +3,7 @@ import { Card, Accordion, Container, Row, Col } from 'react-bootstrap'; // Impor
 import { fetchTransactionData } from '../api/transactionApi';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import '../css/transaction-form.css';
 
 function TransactionPage() {
   const { userInfo } = useSelector((state) => state.user);
@@ -37,14 +38,14 @@ function TransactionPage() {
   if (transactions.length === 0) return <p>No transaction data available.</p>;
 
   return (
-    <Container className="transaction-form py-4">
-      <Row className="justify-content-center">
+    <Container fluid className="transaction-form py-4">
+      <Row className="justify-content-center transaction-form-grid">
         <Col xs={12} md={8} lg={6}>
           <h1 className="text-center mb-4">Transaction History</h1>
 
           {transactions.map(transaction => (
             <Card 
-              className={`transaction-card w-100 mx-auto my-3 ${transaction.type}-transaction`} 
+              className={`transaction-card bg-warning mx-auto my-3 ${transaction.type}-transaction`} 
               key={transaction.transactionId}
             >
               <Card.Header className="transaction-header">
